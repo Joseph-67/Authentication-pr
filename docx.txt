@@ -8,3 +8,7 @@ REGISTERATION PAGE
 7. date of birth
 8. password
 9. confirm password
+
+LOGIN PAGE
+1. username
+2. password
