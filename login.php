@@ -28,7 +28,6 @@
 
                  
 
-                  <div class="row">
                     <div class="col-md-6 mb-4">
                       <div data-mdb-input-init class="form-outline">
                         <input type="text" id="form3Example1m1" class="form-control form-control-lg" />
@@ -39,9 +38,11 @@
 
                  
 
+                  <div class="col-md-6">
                   <div data-mdb-input-init class="form-outline mb-4">
                     <input type="password" id="form3Example90" class="form-control form-control-lg" />
                     <label class="form-label" for="form3Example90">Password</label>
+                  </div>
                   </div>
 
 
