@@ -1,6 +1,33 @@
 <?php
 require 'db.php';
 session_start();
+$error_message='';
+// retreaving user input
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+  # code...
+  $first_name = trim($_POST['first_name']);
+  $last_name = trim($_POST['last_name']);
+  $username = trim($_POST['username']);
+  $email = trim($_POST['email']);
+  $mobile_number = trim($_POST['mobile_number']);
+  // $address = trim($_POST['address']);
+  $date_of_birth = trim($_POST['date_of_birth']);
+  $password = $_POST['password'];
+  $confirm_password = $_POST['confirm_password'];
+}
+// regular expressions
+$password_pattern="/^(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/";
+$name_pattern="/^[a-zA-Z]+$/";
+$username_paattern="/^[a-zA-Z0-9_]+$/";
+$mobile_pattern="/^[0-9]{10,15}$/";
+// validation checks 
+if (empty($first_name) || empty($last_name) || empty($username) || empty($email) || empty($date_of_birth) || empty($password) || empty($confirm_password)) {
+  # code...
+  $error_message="All Required Fields Must Be Filled";
+} else {
+  # code...
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,7 +53,12 @@ session_start();
             <div class="col-xl-6">
               <div class="card-body p-md-5 text-black">
                 <h3 class="mb-5 text-uppercase">Student registration form</h3>
-
+                <!-- display error message -->
+                <?php if ($error_message): ?>
+            <div class="error-message">
+                <p><?php echo htmlspecialchars($error_message); ?></p>
+            </div>
+        <?php endif; ?>
                 <!-- Start of form element -->
                 <form action="#" method="POST">
 
@@ -64,6 +96,10 @@ session_start();
                     <input type="tel" id="form3Example8" name="mobile_number" class="form-control form-control-lg" />
                     <label class="form-label" for="form3Example8">Mobile Number</label>
                   </div>
+                  <!-- <div data-mdb-input-init class="form-outline mb-4">
+                    <input type="tel" id="form3Example8" name="address" class="form-control form-control-lg" />
+                    <label class="form-label" for="form3Example8">Address</label>
+                  </div> -->
 
                   <div data-mdb-input-init class="form-outline mb-4">
                     <input type="date" id="form3Example9" name="date_of_birth" class="form-control form-control-lg" />
@@ -71,7 +107,7 @@ session_start();
                   </div>
 
                   <div data-mdb-input-init class="form-outline mb-4">
-                    <input type="password" id="form3Example90" name="Password" class="form-control form-control-lg" />
+                    <input type="password" id="form3Example90" name="password" class="form-control form-control-lg" />
                     <label class="form-label" for="form3Example90">Password</label>
                   </div>
 
