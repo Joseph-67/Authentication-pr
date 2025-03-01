@@ -6,7 +6,29 @@
     <title>Document</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-</head>
+    <style>
+      .card-registration .select-input.form-control[readonly]:not([disabled]) {
+    font-size: 1rem;
+    line-height: 2.15;
+    padding-left: .75em;
+    padding-right: .75em;
+    }
+    .card-registration .select-arrow {
+    top: 13px;
+    }
+    .error-message {
+        background-color: #ffebee; /* Light red background */
+        color: #d32f2f; /* Dark red text */
+        border: 1px solid #d32f2f;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 5px;
+        text-align: center;
+        font-weight: bold;
+    }
+    
+    </style>
+  </head>
 <body>
 <section class="h-100 bg-dark">
   <div class="container py-5 h-100">
@@ -21,7 +43,7 @@
             </div>
             <div class="col-xl-6">
               <div class="card-body p-md-5 text-black">
-                <h3 class="mb-5 text-uppercase">Student registration form</h3>
+                <h3 class="mb-5 text-uppercase">Login Form</h3>
 
                 <!-- Start of form element -->
                 <form action="#" method="POST">
@@ -44,7 +66,8 @@
                     <label class="form-label" for="form3Example90">Password</label>
                   </div>
                   </div>
-
+                  <div class="d-flex"><p>Don't have an account?</p>
+                  <a href="register.php">Register</a></div>
 
                   <div class="d-flex justify-content-end pt-3">
                     <button type="submit" class="btn btn-warning btn-lg ms-2">Submit</button>

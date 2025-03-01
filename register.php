@@ -25,6 +25,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Validation checks
     if (empty($first_name) || empty($last_name) || empty($username) || empty($email) || empty($date_of_birth) || empty($password) || empty($confirm_password)) {
         $error_message = "All Required Fields Must Be Filled";
+    } elseif(!preg_match($name_pattern, $first_name) || !preg_match($name_pattern, $last_name)) {
+      $error_message = "Names Should Only Contains Letters";
+    } elseif (!preg_match($username_pattern, $username)) {
+      # code...
+      $error_message="username should only contain letters, numbers and underscores";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+      # code...
+      $error_message="invalid email format";
+    } elseif (!empty($mobile_number) && !preg_match($mobile_pattern, $mobile_number)) {
+      # code...
+      $error_message="mobile number should only contain digits (10-15 characters)!";
+    } elseif ($password !== $confirm_password) {
+      # code...
+      $error_message="passwords do not match";
+    } elseif (!preg_match($password_pattern, $password)) {
+      # code...
+      $error_message="Password must be at least 8 characters long, include at least one uppercase letter, and one symbol!";
+    } else {
+      // hash the password
+      $hashed_password=password_hash($password, PASSWORD_BCRYPT);
+      // insert user data in the user database
+      ("INSERT INTO users (first_name, last_name, username, email, phone, address, date_of_birth, password) 
+                               VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
     }
 }
 
@@ -36,9 +59,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="css/style.css">
+    <!-- <link rel="stylesheet" href="css/style.css"> -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-</head>
+    <style>
+      .card-registration .select-input.form-control[readonly]:not([disabled]) {
+    font-size: 1rem;
+    line-height: 2.15;
+    padding-left: .75em;
+    padding-right: .75em;
+    }
+    .card-registration .select-arrow {
+    top: 13px;
+    }
+    .error-message {
+        background-color: #ffebee; /* Light red background */
+        color: #d32f2f; /* Dark red text */
+        border: 1px solid #d32f2f;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 5px;
+        text-align: center;
+        font-weight: bold;
+    }
+    
+    </style>
+  </head>
 <body>
 <section class="h-100 bg-dark">
   <div class="container py-5 h-100">
@@ -116,7 +161,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <input type="password" id="form3Example91" name="confirm_password" class="form-control form-control-lg" />
                     <label class="form-label" for="form3Example91">Confirm Password</label>
                   </div>
-
+                  <div class="d-flex"><p>Have an account?</p>
+                  <a href="login.php">Login</a></div>
                   <div class="d-flex justify-content-end pt-3">
                     <button type="submit" class="btn btn-warning btn-lg ms-2">Submit</button>
                   </div>
