@@ -46,8 +46,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       // hash the password
       $hashed_password=password_hash($password, PASSWORD_BCRYPT);
       // insert user data in the user database
-      ("INSERT INTO users (first_name, last_name, username, email, phone, address, date_of_birth, password) 
+      $stmt = $pdo->prepare("INSERT INTO users (first_name, last_name, username, email, mobile_number, address, date_of_birth, password) 
                                VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                               if ($stmt->execute([$first_name, $last_name, $username, $email, $phone, $address, $date_of_birth, $hashed_password])) {
+                                // Automatically log the user in after registration
+                                $_SESSION['user_id'] = $pdo->lastInsertId();
+                                $_SESSION['email'] = $email;
+                        
+                                // Redirect to the dashboard
+                                header("Location: dashboard.php");
+                                exit();
+                            } else {
+                                echo "Registration failed!";
+                            }
     }
 }
 
