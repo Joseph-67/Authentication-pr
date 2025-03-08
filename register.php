@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       // insert user data in the user database
       $stmt = $pdo->prepare("INSERT INTO users (first_name, last_name, username, email, mobile_number, address, date_of_birth, password) 
                                VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-                               if ($stmt->execute([$first_name, $last_name, $username, $email, $phone, $address, $date_of_birth, $hashed_password])) {
+                               if ($stmt->execute([$first_name, $last_name, $username, $email, $mobile_number, $address, $date_of_birth, $hashed_password])) {
                                 // Automatically log the user in after registration
                                 $_SESSION['user_id'] = $pdo->lastInsertId();
                                 $_SESSION['email'] = $email;

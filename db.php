@@ -1,8 +1,9 @@
 <?php
 $host="localhost";
-$db="auth_system";
+$db="aut_system";
 $user="root";
 $pass="";
+
 // pdo connection
 try {
     //code...

@@ -68,8 +68,8 @@
                     <li class="nav-item"><a class="nav-link" href="#courses">Courses</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
                 </ul>
-                <a href="#" class="btn btn-light me-2">Register</a>
-                <a href="#" class="btn btn-outline-light">Login</a>
+                <a href="register.php" class="btn btn-light me-2">Register</a>
+                <a href="login.php" class="btn btn-outline-light">Login</a>
             </div>
         </div>
     </nav>
