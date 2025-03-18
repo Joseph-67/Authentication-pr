@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
                                if ($stmt->execute([$first_name, $last_name, $username, $email, $mobile_number, $address, $date_of_birth, $hashed_password])) {
                                 // Automatically log the user in after registration
-                                $_SESSION['user_id'] = $pdo->lastInsertId();
+                                $_SESSION['id'] = $pdo->lastInsertId();
                                 $_SESSION['email'] = $email;
                         
                                 // Redirect to the dashboard
