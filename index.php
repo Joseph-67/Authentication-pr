@@ -162,6 +162,12 @@
         <p>© 2025 MySchool. All rights reserved.</p>
     </footer>
 
+    <?php
+    $t=10
+    $n = 20;
+echo ($t > 0 && $n < 20);  
+echo ($t > 0 || $n < 20);
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
