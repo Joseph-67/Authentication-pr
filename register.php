@@ -24,45 +24,64 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Validation checks
     if (empty($first_name) || empty($last_name) || empty($username) || empty($email) || empty($date_of_birth) || empty($password) || empty($confirm_password)) {
-        $error_message = "All Required Fields Must Be Filled";
-    } elseif(!preg_match($name_pattern, $first_name) || !preg_match($name_pattern, $last_name)) {
-      $error_message = "Names Should Only Contains Letters";
+        $error_message = "All required fields must be filled.";
+    } elseif (!preg_match($name_pattern, $first_name) || !preg_match($name_pattern, $last_name)) {
+        $error_message = "Names should only contain letters.";
     } elseif (!preg_match($username_pattern, $username)) {
-      # code...
-      $error_message="username should only contain letters, numbers and underscores";
+        $error_message = "Username should only contain letters, numbers, and underscores.";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-      # code...
-      $error_message="invalid email format";
+        $error_message = "Invalid email format.";
     } elseif (!empty($mobile_number) && !preg_match($mobile_pattern, $mobile_number)) {
-      # code...
-      $error_message="mobile number should only contain digits (10-15 characters)!";
+        $error_message = "Mobile number should only contain digits (10-15 characters)!";
     } elseif ($password !== $confirm_password) {
-      # code...
-      $error_message="passwords do not match";
+        $error_message = "Passwords do not match.";
     } elseif (!preg_match($password_pattern, $password)) {
-      # code...
-      $error_message="Password must be at least 8 characters long, include at least one uppercase letter, and one symbol!";
+        $error_message = "Password must be at least 8 characters long, include at least one uppercase letter, and one symbol.";
     } else {
-      // hash the password
-      $hashed_password=password_hash($password, PASSWORD_BCRYPT);
-      // insert user data in the user database
-      $stmt = $pdo->prepare("INSERT INTO users (first_name, last_name, username, email, mobile_number, address, date_of_birth, password) 
-                               VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-                               if ($stmt->execute([$first_name, $last_name, $username, $email, $mobile_number, $address, $date_of_birth, $hashed_password])) {
-                                // Automatically log the user in after registration
-                                $_SESSION['id'] = $pdo->lastInsertId();
-                                $_SESSION['email'] = $email;
-                        
-                                // Redirect to the dashboard
-                                header("Location: dashboard.php");
-                                exit();
-                            } else {
-                                echo "Registration failed!";
-                            }
+        // Check if email already exists
+        $check_email = $pdo->prepare("SELECT COUNT(*) FROM users WHERE email = ?");
+        $check_email->execute([$email]);
+        $email_exists = $check_email->fetchColumn();
+
+        // Check if username already exists
+        $check_username = $pdo->prepare("SELECT COUNT(*) FROM users WHERE username = ?");
+        $check_username->execute([$username]);
+        $username_exists = $check_username->fetchColumn();
+
+        if ($email_exists > 0) {
+            $error_message = "Email already registered! Please use a different email.";
+        } elseif ($username_exists > 0) {
+            $error_message = "Username already taken! Please choose another.";
+        } else {
+            // Hash the password
+            $hashed_password = password_hash($password, PASSWORD_BCRYPT);
+
+            // Insert user data into the database
+            $stmt = $pdo->prepare("INSERT INTO users (first_name, last_name, username, email, mobile_number, address, date_of_birth, password) 
+                                   VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            if ($stmt->execute([$first_name, $last_name, $username, $email, $mobile_number, $address, $date_of_birth, $hashed_password])) {
+                // Automatically log the user in after registration
+                $_SESSION['id'] = $pdo->lastInsertId();
+                $_SESSION['email'] = $email;
+
+                // Redirect to the dashboard
+                header("Location: dashboard.php");
+                exit();
+            } else {
+                $error_message = "Registration failed!";
+            }
+        }
     }
 }
 
+// Display error message if any
+if (!empty($error_message)) {
+    echo "<p style='color: red;'>$error_message</p>";
+}
 ?>
+
+
+
 
 <!DOCTYPE html>
 <html lang="en">
